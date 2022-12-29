@@ -8,6 +8,7 @@ export * as nip05 from './nip05'
 export * as nip06 from './nip06'
 export * as nip19 from './nip19'
 export * as nip26 from './nip26'
+export * as nip41 from './nip41'
 
 // monkey patch secp256k1
 import * as secp256k1 from '@noble/secp256k1'

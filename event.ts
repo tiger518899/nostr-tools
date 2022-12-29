@@ -3,7 +3,6 @@ import {sha256} from '@noble/hashes/sha256'
 
 import {utf8Encoder} from './utils'
 
-
 /* eslint-disable no-unused-vars */
 export enum Kind {
   Metadata = 0,
@@ -13,11 +12,12 @@ export enum Kind {
   EncryptedDirectMessage = 4,
   EventDeletion = 5,
   Reaction = 7,
+  StatelessRevocation = 13,
   ChannelCreation = 40,
   ChannelMetadata = 41,
   ChannelMessage = 42,
   ChannelHideMessage = 43,
-  ChannelMuteUser = 44,
+  ChannelMuteUser = 44
 }
 
 export type Event = {
@@ -73,8 +73,13 @@ export function validateEvent(event: Event): boolean {
   return true
 }
 
-export function verifySignature(event: Event & {sig: string}): boolean {
-  return secp256k1.schnorr.verifySync(event.sig, getEventHash(event), event.pubkey)
+export function verifySignature(event: Event): boolean {
+  if (!event.sig) return false
+  return secp256k1.schnorr.verifySync(
+    event.sig,
+    getEventHash(event),
+    event.pubkey
+  )
 }
 
 export function signEvent(event: Event, key: string): string {
