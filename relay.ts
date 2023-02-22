@@ -276,6 +276,7 @@ export function relayInit(url: string): Relay {
         on: (type: 'ok' | 'failed', cb: any) => {
           pubListeners[id] = pubListeners[id] || {
             ok: [],
+            seen: [],
             failed: []
           }
           pubListeners[id][type].push(cb)
